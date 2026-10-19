@@ -70,6 +70,7 @@ const STAGES=[
 const N=STAGES.length, INIT={stage:0,shown:false,open:false,endsAt:null,final:false};
 
 /* ====== 3. 啟動 ====== */
+  window.addEventListener("unhandledrejection",e=>alert("錯誤："+(e.reason&&e.reason.message||e.reason)));
 const P=new URLSearchParams(location.search);
 const room=(P.get("room")||"class1").replace(/[^\w-]/g,"").slice(0,20)||"class1";
 const role=["display","host"].includes(P.get("role"))?P.get("role"):"player";
