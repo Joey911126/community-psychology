@@ -89,6 +89,7 @@ if(!FIREBASE_CONFIG.apiKey){
   const lock=()=>{const c=counts();S.update({open:false,endsAt:null});if(st.stage>0)H.child(st.stage).set({A:c.a,B:c.b});};
   auth.onAuthStateChanged(u=>{
     user=u;
+    if(role==="host"&&u&&u.isAnonymous){auth.signOut();return}
     if(!u&&role!=="host"){auth.signInAnonymously().catch(e=>app.innerHTML="匿名登入失敗："+esc(e.message));return}
     S.on("value",s=>{st={...INIT,...(s.val()||{})};render()});
     V.on("value",s=>{votes=s.val()||{};render()});
