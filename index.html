@@ -1,38 +1,54 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head>
+<html lang="zh-Hant" style="color-scheme:light"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>終極居住命運拉扯戰：12 階動態對決</title>
 <style>
-:root{--bg:#0d1020;--card:#1a1f38;--tx:#f4f6ff;--mut:#9aa3c7;--a:#3b82f6;--b:#fb923c}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,"Noto Sans TC",sans-serif}
-button{font:inherit;cursor:pointer;border:0;border-radius:12px;padding:12px 16px;color:#fff;background:#3a4172}
+:root{
+  --sage:#8FA898;--sage-l:#EBF0EB;--sage-d:#4A6050;
+  --clay:#B89A88;--clay-l:#F2EDE8;--clay-d:#785040;
+  --dusk:#9898B0;--dusk-l:#EBEBF2;--dusk-d:#484868;
+  --stone:#A8A49A;--stone-d:#585248;
+  --mist:#9AAAB8;--mist-l:#E8EDF1;--mist-d:#485870;
+  --brd:rgba(168,158,145,.22);
+  --tx:#2C2820;--tx2:#4C4238;--tx3:#7A7068;
+  --bg:#F6F4EE;--card:#FFFFFF;--a:var(--mist);--b:var(--clay);--mut:var(--tx3)
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,"Noto Sans TC",sans-serif}
+button{font:inherit;cursor:pointer;border:1px solid var(--brd);border-radius:12px;padding:12px 16px;color:var(--sage-d);background:var(--sage-l)}
 button:disabled{opacity:.4;cursor:not-allowed}
-input{font:inherit;padding:12px;border-radius:10px;border:2px solid #3a4172;background:#0d1020;color:var(--tx);width:100%}
-.btnA{background:var(--a)}.btnB{background:var(--b);color:#1a1000}
-h1{margin:0;font-size:1.3em}.mut{color:var(--mut)}.wrap{max-width:560px;margin:0 auto;padding:16px}
+input{font:inherit;padding:12px;border-radius:10px;border:2px solid #D6D0C4;background:#fff;color:var(--tx);width:100%}
+input:focus{outline:none;border-color:var(--sage)}
+.btnP{background:var(--sage-d);color:#fff;border-color:var(--sage-d)}
+.btnA{background:var(--mist-l);color:var(--mist-d)}
+.btnB{background:var(--clay-l);color:var(--clay-d)}
+h1{margin:0;font-size:1.3em;color:var(--sage-d)}.mut{color:var(--tx3)}.wrap{max-width:560px;margin:0 auto;padding:16px}
 .pick{display:block;width:100%;text-align:left;margin:10px 0;padding:18px;font-size:1.1em;border:4px solid transparent}
-.pick.on{border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.25)}
-.badge{display:inline-block;padding:4px 12px;border-radius:99px;font-weight:700}
-.open{background:#16a34a}.lock{background:#dc2626}
+.pick.btnA.on{border-color:var(--mist-d);background:var(--mist);color:var(--tx)}
+.pick.btnB.on{border-color:var(--clay-d);background:var(--clay);color:var(--tx)}
+.badge{display:inline-block;padding:4px 12px;border-radius:99px;font-weight:700;color:#fff}
+.open{background:var(--sage-d)}.lock{background:var(--clay-d)}
 /* display */
 .d{padding:20px 28px;min-height:100vh}.d header{display:flex;justify-content:space-between;align-items:center;gap:20px}
-.d h1{font-size:2.2vw}.cnt{font-size:6vw;font-weight:900;color:#fde047;min-width:8vw;text-align:center}
+.d h1{font-size:2.2vw}.cnt{font-size:6vw;font-weight:900;color:var(--clay-d);min-width:8vw;text-align:center}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:16px 0}
-.zone{background:var(--card);border-radius:20px;padding:20px;border-top:10px solid}
-.zA{border-color:var(--a)}.zB{border-color:var(--b)}
+.zone{background:var(--card);border-radius:20px;padding:20px;border:1px solid var(--brd);border-top:10px solid}
+.zA{border-top-color:var(--a)}.zB{border-top-color:var(--b)}
 .zone h2{margin:0;font-size:2.4vw}.pct{font-size:7vw;font-weight:900;line-height:1}
-.zA .pct{color:var(--a)}.zB .pct{color:var(--b)}.zone li{font-size:1.8vw;margin:.4em 0}
-.bar{display:flex;height:4.5vw;border-radius:14px;overflow:hidden;background:#333}
-.bar div{display:flex;align-items:center;justify-content:center;font-size:2vw;font-weight:800;transition:width .5s}
+.zA h2,.zA .pct{color:var(--mist-d)}.zB h2,.zB .pct{color:var(--clay-d)}
+.zone li{font-size:1.8vw;margin:.4em 0}
+.zone li.cur{font-size:1.8vw}.zone li.old{font-size:1.15vw;opacity:.7}
+.bar{display:flex;height:4.5vw;border-radius:14px;overflow:hidden;background:#E4E0D6}
+.bar div{display:flex;align-items:center;justify-content:center;font-size:2vw;font-weight:800;transition:width .5s;color:var(--tx)}
 .tags span{display:inline-block;margin:4px;padding:4px 12px;border-radius:99px;font-size:1.5vw}
-.zA .tags span{background:rgba(59,130,246,.3)}.zB .tags span{background:rgba(251,146,60,.3)}
-.stage{background:var(--card);border-radius:20px;padding:14px 22px;font-size:2vw}
-#qr{background:#fff;padding:8px;border-radius:10px}
+.zA .tags span{background:var(--mist-l);color:var(--mist-d)}.zB .tags span{background:var(--clay-l);color:var(--clay-d)}
+.stage{background:var(--sage-l);color:var(--sage-d);border:1px solid var(--brd);border-radius:20px;padding:14px 22px;font-size:2vw}
+#qr{background:#fff;padding:8px;border-radius:10px;border:1px solid var(--brd)}
 /* host */
 .row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.row button{flex:1 1 140px}
-.panel{background:var(--card);border-radius:14px;padding:14px;margin:12px 0}
-table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid #333;text-align:center}
+.panel{background:var(--card);border:1px solid var(--brd);border-radius:14px;padding:14px;margin:12px 0}
+table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid var(--brd);text-align:center}
 </style></head>
 <body><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -52,20 +68,20 @@ const FIREBASE_CONFIG = {
 };
 
 /* ====== 2. 12 階段內容 [標題, 圖示, 說明, A條件[], B條件[]] ====== */
-const A_NAME="A 區：新穎小宅", B_NAME="B 區：老舊大空間";
+const A_NAME="A 區：精緻小宅", B_NAME="B 區：大坪數房子";
 const STAGES=[
-["基本屋況","🏠","屋況與空間是最直覺的選擇依據。",["屋齡約 5 年，22 坪，設備新、格局方正"],["屋齡約 35 年，45 坪，需要修繕但空間寬敞"]],
-["交通通勤","🚗","通勤時間會吸走生活與休息的時間。",["開車單程約 75 分鐘，大眾運輸班次少"],["步行 8 分鐘到捷運，約 15 分鐘到市中心"]],
-["物理環境品質","🌳","綠地、噪音與空氣品質影響日常壓力。",["周邊工地與主幹道多，噪音與空污較明顯，綠地少"],["巷弄安靜，步行 5 分鐘有公園，空氣較佳"]],
-["住房擁擠度","👥","居住空間與人口密度影響隱私與壓力。",["人口密度高，戶均空間小，鄰戶很近"],["人口密度低，每人可用空間寬鬆"]],
+["基本屋況","🏠","屋況與空間是最直覺的選擇依據。",["全新完工，設備新、採光佳、乾濕分離衛浴"],["屋齡約35年，無電梯，部分設備需要修繕，但位於蛋黃區黃金地段，生活機能極佳"]],
+["交通通勤","🚗","通勤時間會吸走生活與休息的時間。",["大眾運輸尚未完善，每天上班開車通勤需45分鐘，且塞車與油錢負擔重"],["樓下就是雙捷運交會站與公車樞紐，15分鐘到哪都行"]],
+["環境品質","🌳","綠地、噪音與空氣品質影響日常壓力。",["緊鄰河濱綠地公園，空氣清新，夜晚極度寧靜無車聲"],["樓下就是熱鬧夜市與餐飲街，半夜經常有油煙味、廢氣與醉客噪音困擾"]],
+["住房擁擠度","👥","居住空間與人口密度影響隱私與壓力。",["單身套房為主，無過度擁擠問題"],["分租套房多，且平均每間住超過1人，呈現過度擁擠"]],
 ["區域經濟","💰","收入、失業與經濟剝奪會影響整體生活壓力。",["居民平均收入較高，失業率較低"],["居民收入偏低，失業與經濟壓力較明顯"]],
-["社會凝聚力","🤝","鄰里互助、社區參與與居住穩定。",["住戶流動快，多數人不認識鄰居，少有社區活動"],["住戶久居，鄰里互助與社區活動活躍"]],
-["心理危機與支持","💬","社會孤立與社會支持與心理健康風險相關。",["孤立情形較多，遇到困難多半獨自承擔"],["鄰里會互相關心，有人異狀時容易被注意到"]],
-["選擇性人口遷移","🚚","誰留下、誰離開，會改變社區資源。",["年輕家庭持續遷入，商店與學校逐漸增加"],["年輕人外移、老齡化，商店與診所逐漸減少"]],
-["童年累積效應","🧒","不同生命階段的居住經驗會累積成長期健康影響。",["孩子成長過程常搬家、轉學，同儕關係難延續"],["孩子長期在同一社區成長，但部分家庭資源不足"]],
-["主觀感知與社區品質","💗","同樣的環境，居民感受可能不同。",["居民認為環境整潔安全，但歸屬感低"],["居民歸屬感高、自覺幸福，但對老舊設施不滿"]],
-["行政標籤與實質社區","🗺️","行政區分類不等於真實的生活與支持網絡。",["被稱為「優質新興區」，但生活圈分散、連結薄弱"],["被貼上「衰退區」標籤，實際上有緊密的支持網絡"]],
-["社區心理學系統介入","🌱","改善居住環境，也可以改善社區的條件。",["導入社區賦權與跨專業合作，逐步建立鄰里連結"],["推動地方創生與社區照顧網絡，修繕老屋、留住青年"]]
+["社會凝聚力","🤝","鄰里互助、社區參與與居住穩定。",["半年換一次鄰居，門口裝監視器戒備，投票率僅8%"],["全棟都是住了幾十年的老住戶，鄰里互助代收快遞，投票參與率高達85%"]],
+["心理危機與支持","💬","社會孤立與社會支持與心理健康風險相關。",["孤立情形較多，遇到困難多半獨自承擔"],["鄰里會互相關心，社區活動活躍，有人有異狀時容易被注意到"]],
+["發展前景與選擇性人口遷移","🚚","誰留下、誰離開，會改變社區資源。",["周邊即將引進大型科技園區，吸引大量高學歷、高收入年輕家庭移入，商店與學校逐漸增加"],["年輕人外移、社區老齡化，商店與診所逐漸減少"]],
+["童年累積效應","🧒","不同生命階段的居住經驗會累積成長期健康影響。",["研究顯示，搬到A區能把成年後的長期患病率壓低至90。"],["研究顯示：留在B區，童年與成年的雙重累積效應會讓你的長期患病率飆升至186"]],
+["主觀感知與社區品質","💗","同樣的環境，居民感受可能不同。",["大樓管委會天天爆發住戶公設產權官司與冷漠敵意，居民對「社區社會品質」滿意度極低"],["雖然硬體老舊，但居民自發成立巡守隊與共餐點，「心理社區感」極高。"]],
+["行政標籤與實質社區","🗺️","行政區分類不等於真實的生活與支持網絡。",["被政府評為「優質示範行政區」"],["被政府劃為「高風險補助區」"]],
+["社區心理學系統介入","🌱","改善居住環境，也可以改善社區的條件。",["導入社區賦權與跨專業合作，逐步建立鄰里連結"],["推動地方創生、青年共生住宅與C級巷弄照顧站，修繕老屋、留住青年"]]
 ];
 const N=STAGES.length, INIT={stage:0,shown:false,open:false,endsAt:null,final:false};
 
@@ -76,7 +92,7 @@ const room=(P.get("room")||"class1").replace(/[^\w-]/g,"").slice(0,20)||"class1"
 const role=["display","host"].includes(P.get("role"))?P.get("role"):"player";
 const $=s=>document.querySelector(s), app=$("#app");
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let st={...INIT}, votes={}, hist={}, offset=0, user=null, hostErr="", qrDone=false;
+let st={...INIT}, votes={}, hist={}, offset=0, user=null, hostErr="", qrDone=false, votesLoaded=false, reg=false;
 if(!FIREBASE_CONFIG.apiKey){
   app.innerHTML='<div class="wrap"><h1>尚未設定 Firebase</h1><p class="mut">請依 README 把 Firebase 設定貼到 index.html 最上方的 FIREBASE_CONFIG。</p></div>';
 }else{
@@ -92,7 +108,7 @@ if(!FIREBASE_CONFIG.apiKey){
     if(role==="host"&&u&&u.isAnonymous){auth.signOut();return}
     if(!u&&role!=="host"){auth.signInAnonymously().catch(e=>app.innerHTML="匿名登入失敗："+esc(e.message));return}
     S.on("value",s=>{st={...INIT,...(s.val()||{})};render()});
-    V.on("value",s=>{votes=s.val()||{};render()});
+    V.on("value",s=>{votes=s.val()||{};votesLoaded=true;render()});
     H.on("value",s=>{hist=s.val()||{};render()});
     if(role==="host"&&u)S.once("value",s=>{if(!s.exists())S.set(INIT)});
   });
@@ -104,6 +120,7 @@ if(!FIREBASE_CONFIG.apiKey){
   const bars=()=>{const c=counts(),t=c.a+c.b,pa=t?Math.round(c.a/t*100):0,pb=t?100-pa:0;return{c,t,pa,pb}};
   const names=side=>Object.values(votes).filter(v=>v.side===side).map(v=>`<span>${esc(v.name)}</span>`).join("");
   const stageObj=()=>STAGES[st.stage-1];
+  const revealed=()=>st.stage>0?(st.shown?st.stage:st.stage-1):0;
   const status=()=>`<span class="badge ${st.open?"open":"lock"}">${st.open?"投票開放":"投票鎖定"}</span>`;
 
   function render(){
@@ -115,35 +132,45 @@ if(!FIREBASE_CONFIG.apiKey){
   /* --- 學生手機 --- */
   function renderPlayer(){
     if(!user)return;
-    const me=votes[user.uid], saved=localStorage.getItem("nick")||"";
-    const keep=$("#nick")?$("#nick").value:saved;
-    const s=st.stage>0?stageObj():null;
+    const nick=localStorage.getItem("nick")||"";
+    if(!nick&&$("#join"))return; // 輸入暱稱時不重繪，避免鍵盤收起
+    if(!nick){
+      app.innerHTML=`<div class="wrap"><h1>🏘️ 終極居住命運拉扯戰</h1>
+      <p class="mut">暱稱僅用於本次課堂活動顯示，活動資料由老師清除。請勿輸入真實姓名或個資。</p>
+      <input id="nick" maxlength="12" placeholder="輸入暱稱（最多 12 字）"><br><br>
+      <button class="btnP" id="join" style="width:100%">加入活動</button></div>`;
+      const join=()=>{const n=$("#nick").value.trim();if(!n){alert("請先輸入暱稱");return}localStorage.setItem("nick",n);
+        const m=votes[user.uid];V.child(user.uid).set({name:n,side:(m&&m.side)||""}).catch(e=>alert("加入失敗："+e.message));render()};
+      $("#join").onclick=join;$("#nick").onkeydown=e=>{if(e.key==="Enter")join()};
+      return;
+    }
+    const me=votes[user.uid], s=st.stage>0?stageObj():null;
+    if(votesLoaded&&!me&&!reg){reg=true;V.child(user.uid).set({name:nick,side:""}).catch(()=>{}).finally(()=>reg=false)} // 老師清空後自動重新加入
+    const panels=()=>{let h="";const n=revealed();for(let i=n-1;i>=0;i--){const x=STAGES[i],cur=i===n-1;h+=`<div class="panel" style="${cur?"":"opacity:.7"}"><b>${x[1]} 第 ${i+1} 階段：${x[0]}</b>${cur?`<p class="mut">${x[2]}</p>`:""}<p style="color:#485870">A：${x[3].join("；")}</p><p style="color:#785040">B：${x[4].join("；")}</p></div>`}return h};
     const btn=(k,label,cls)=>`<button class="pick ${cls} ${me&&me.side===k?"on":""}" ${st.open?"":"disabled"} data-side="${k}">${label}${me&&me.side===k?" ✔ 目前選擇":""}</button>`;
     app.innerHTML=`<div class="wrap"><h1>🏘️ 終極居住命運拉扯戰</h1>
     <p>${st.final?"最終結果":s?`第 ${st.stage}/${N} 階段：${s[0]}`:"等待老師開始…"} ${status()} <span id="cnt" style="font-size:1.6em;font-weight:900"></span></p>
-    <p class="mut">暱稱僅用於本次課堂活動顯示，活動資料由老師清除。請勿輸入真實姓名或個資。</p>
-    <input id="nick" maxlength="12" placeholder="輸入暱稱（最多 12 字）" value="${esc(keep)}">
+    <p class="mut">👤 暱稱：<b>${esc(nick)}</b> <button id="chg" style="padding:2px 10px;font-size:.8em">更改</button></p>
     ${btn("A",A_NAME,"btnA")}${btn("B",B_NAME,"btnB")}
-    <p>${me?`你目前支持 <b>${me.side} 區</b>，${st.open?"可隨時換邊":"投票已鎖定"}`:"請輸入暱稱並選擇一個區域"}</p>
-    ${st.shown&&s?`<div class="panel"><b>${s[1]} ${s[0]}</b><p class="mut">${s[2]}</p><p style="color:#93c5fd">A：${s[3].join("；")}</p><p style="color:#fdba74">B：${s[4].join("；")}</p></div>`:""}</div>`;
+    <p>${me&&me.side?`你目前支持 <b>${me.side} 區</b>，${st.open?"可隨時換邊":"投票已鎖定"}`:st.open?"請選擇一個區域":"請等待老師開始下一階段"}</p>
+    ${panels()}</div>`;
+    $("#chg").onclick=()=>{localStorage.removeItem("nick");render()};
     app.querySelectorAll(".pick").forEach(b=>b.onclick=()=>{
-      const name=$("#nick").value.trim();
-      if(!name){alert("請先輸入暱稱");return}
-      localStorage.setItem("nick",name);
-      V.child(user.uid).set({name,side:b.dataset.side}).catch(e=>alert("投票失敗（可能已鎖定）："+e.message));
+      V.child(user.uid).set({name:nick,side:b.dataset.side}).catch(e=>alert("投票失敗（可能已鎖定）："+e.message));
     });
   }
 
   /* --- 投影幕 --- */
   function renderDisplay(){
     const {c,pa,pb}=bars(), s=st.stage>0?stageObj():null;
-    const zone=(k,nm,cond,n,p,nameHtml)=>`<div class="zone z${k}"><h2>${nm}</h2><ul>${st.shown&&cond?cond.map(x=>`<li>${esc(x)}</li>`).join(""):'<li class="mut">條件尚未揭露…</li>'}</ul><div class="pct">${p}%</div><div style="font-size:2.4vw">${n} 人</div><div class="tags">${nameHtml}</div></div>`;
+    const condHtml=ix=>{const n=revealed();if(!n)return'<li class="mut">條件尚未揭露…</li>';let h="";for(let i=n-1;i>=0;i--){const x=STAGES[i];h+=`<li class="${i===n-1?"cur":"old"}">${x[1]} <b>${esc(x[0])}</b>：${x[ix].map(esc).join("；")}</li>`}return h};
+    const zone=(k,nm,ix,n,p,nameHtml)=>`<div class="zone z${k}"><h2>${nm}</h2><ul>${condHtml(ix)}</ul><div class="pct">${p}%</div><div style="font-size:2.4vw">${n} 人</div><div class="tags">${nameHtml}</div></div>`;
     if(st.final){
       app.innerHTML=`<div class="d"><h1>🏁 最終結果</h1><table style="font-size:1.8vw"><tr><th>階段</th><th>A 區</th><th>B 區</th></tr>${STAGES.map((x,i)=>{const h=hist[i+1];return`<tr><td>${i+1}. ${x[0]}</td><td>${h?h.A:"-"}</td><td>${h?h.B:"-"}</td></tr>`}).join("")}</table><p style="font-size:2vw">討論：哪些條件改變了你的選擇？為什麼？居住環境如何影響身心健康？</p></div>`;return}
     app.innerHTML=`<div class="d"><header><h1>🏘️ 終極居住命運拉扯戰：12 階動態對決</h1><div id="qrbox" style="display:${st.stage===0?"block":"none"}"><div id="qr"></div></div><div class="cnt" id="cnt"></div>${status()}</header>
     <div class="stage">${s?`${s[1]} 第 ${st.stage}/${N} 階段：${s[0]} <span class="mut">— ${s[2]}</span>`:"📱 掃描 QR Code 加入，輸入暱稱並選擇居住區域"}</div>
-    <div class="cards">${zone("A",A_NAME,s&&s[3],c.a,pa,names("A"))}${zone("B",B_NAME,s&&s[4],c.b,pb,names("B"))}</div>
-    <div class="bar"><div style="width:${pa}%;background:var(--a)">${pa?pa+"%":""}</div><div style="width:${pb}%;background:var(--b);color:#1a1000">${pb?pb+"%":""}</div></div>
+    <div class="cards">${zone("A",A_NAME,3,c.a,pa,names("A"))}${zone("B",B_NAME,4,c.b,pb,names("B"))}</div>
+    <div class="bar"><div style="width:${pa}%;background:var(--a)">${pa?pa+"%":""}</div><div style="width:${pb}%;background:var(--b);color:var(--tx)">${pb?pb+"%":""}</div></div>
     <div style="margin-top:12px;display:${st.stage===0?"none":"flex"};align-items:center;gap:12px"><div id="qr2" style="background:#fff;padding:4px;border-radius:8px"></div><span class="mut">隨時掃描加入</span></div></div>`;
     const url=location.origin+location.pathname+"?room="+room;
     ["qr","qr2"].forEach((id,i)=>{const el=$("#"+id);if(el&&window.QRCode)new QRCode(el,{text:url,width:i?96:220,height:i?96:220})});
@@ -152,28 +179,27 @@ if(!FIREBASE_CONFIG.apiKey){
   /* --- 主持人 --- */
   function renderHost(){
     if(!user){
-      app.innerHTML=`<div class="wrap"><h1>主持人登入</h1><p class="mut">房間：${esc(room)}</p><input id="em" placeholder="Email" type="email"><br><br><input id="pw" placeholder="密碼" type="password"><p style="color:#f87171">${esc(hostErr)}</p><button class="btnA" id="login">登入</button></div>`;
+      app.innerHTML=`<div class="wrap"><h1>主持人登入</h1><p class="mut">房間：${esc(room)}</p><input id="em" placeholder="Email" type="email"><br><br><input id="pw" placeholder="密碼" type="password"><p style="color:#785040">${esc(hostErr)}</p><button class="btnP" id="login">登入</button></div>`;
       $("#login").onclick=()=>auth.signInWithEmailAndPassword($("#em").value,$("#pw").value).catch(e=>{hostErr=e.message;renderHost()});return}
     const {c,pa,pb}=bars(), s=st.stage>0?stageObj():null, ent=Object.entries(votes);
     app.innerHTML=`<div class="wrap"><h1>🎛️ 主持人控制台 <span class="mut" style="font-size:.6em">房間 ${esc(room)}</span></h1>
     <div class="panel"><b>${st.stage===0?"大廳（尚未開始）":`第 ${st.stage}/${N} 階段：${s[0]}`}</b> ${status()} <span id="cnt" style="font-size:1.6em;font-weight:900"></span>
     <p style="font-size:1.4em">A：${c.a} 人（${pa}%）　B：${c.b} 人（${pb}%）</p>
     <p class="mut">${s?s[2]:""}</p>${st.shown?"<p>✅ 條件已揭露</p>":"<p>條件未揭露</p>"}</div>
-    <div class="row"><button id="prev" ${st.stage<=0?"disabled":""}>⬅ 上一階段</button><button id="next" class="btnA" ${st.stage>=N?"disabled":""}>下一階段 ➡</button></div>
-    <div class="row"><button id="reveal" ${st.stage<1?"disabled":""}>👁 揭露條件</button><button id="start" class="btnB" ${st.stage<1?"disabled":""}>⏱ 開始 10 秒倒數</button></div>
-    <div class="row"><button id="open">🔓 開放投票</button><button id="lock">🔒 鎖定投票</button></div>
+    <div class="row"><button id="prev" ${st.stage<=0?"disabled":""}>⬅ 上一階段</button><button id="next" class="btnP" ${st.stage>=N?"disabled":""}>下一階段 ➡</button></div>
+    <div class="row"><button id="start" ${st.stage<1?"disabled":""}>⏱ 重新倒數 20 秒</button><button id="lock">🔒 立即鎖定投票</button></div>
     <div class="row"><button id="final">🏁 顯示最終結果</button><button id="back">↩ 回到對決畫面</button></div>
-    <div class="row"><button id="clear" style="background:#991b1b">🗑 清空並重新開始</button><button id="out">登出</button></div>
+    <div class="row"><button id="clear" style="background:var(--clay-d);color:#fff;border-color:var(--clay-d)">🗑 清空並重新開始</button><button id="out">登出</button></div>
     <div class="panel"><b>投影幕網址</b><br><small id="u1"></small><br><b>學生網址</b><br><small id="u2"></small></div>
-    <div class="panel"><b>參與者（${ent.length}）</b><br>${ent.map(([k,v])=>`<span style="color:${v.side==="A"?"#93c5fd":"#fdba74"}">${esc(v.name)}(${v.side})</span>`).join("　")||"<span class='mut'>尚無</span>"}</div>
+    <div class="panel"><b>參與者（${ent.length}）</b><br>${ent.map(([k,v])=>`<span style="color:${v.side==="A"?"#485870":v.side==="B"?"#785040":"#7A7068"}">${esc(v.name)}${v.side?`(${v.side})`:""}</span>`).join("　")||"<span class='mut'>尚無</span>"}</div>
     <div class="panel"><b>各階段結果</b><table><tr><th>階段</th><th>A</th><th>B</th></tr>${STAGES.map((x,i)=>{const h=hist[i+1];return h?`<tr><td>${i+1}. ${x[0]}</td><td>${h.A}</td><td>${h.B}</td></tr>`:""}).join("")}</table></div></div>`;
     const base=location.origin+location.pathname+"?room="+room;
     $("#u1").textContent=base+"&role=display";$("#u2").textContent=base;
-    const go=d=>()=>{if(st.open)lock();S.update({stage:st.stage+d,shown:false,open:false,endsAt:null,final:false})};
+    // 下一階段：自動揭露條件並開放投票（20 秒倒數，時間到自動鎖定）；上一階段：僅回顧，不開放
+    const go=d=>()=>{if(st.open)lock();const n=st.stage+d,auto=d>0&&n>=1;
+      S.update({stage:n,shown:n>=1,open:auto,endsAt:auto?now()+20000:null,final:false})};
     $("#prev").onclick=go(-1);$("#next").onclick=go(1);
-    $("#reveal").onclick=()=>S.update({shown:true});
-    $("#start").onclick=()=>S.update({shown:true,open:true,endsAt:now()+10000});
-    $("#open").onclick=()=>S.update({open:true,endsAt:null});
+    $("#start").onclick=()=>S.update({shown:true,open:true,endsAt:now()+20000});
     $("#lock").onclick=lock;
     $("#final").onclick=()=>{if(st.open)lock();S.update({final:true})};
     $("#back").onclick=()=>S.update({final:false});
