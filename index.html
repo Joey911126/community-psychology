@@ -153,11 +153,11 @@ if(!FIREBASE_CONFIG.apiKey){
     if(!nick&&$("#join"))return; // 輸入暱稱時不重繪，避免鍵盤收起
     if(!nick){
       app.innerHTML=`<div class="wrap"><h1>🏘️ 終極居住命運拉扯戰</h1>
-      <p class="mut">暱稱僅用於本次課堂活動顯示，活動資料由老師清除。請勿輸入真實姓名或個資。</p>
+      <p class="mut">暱稱僅用於本次課堂活動顯示，活動資料將於結束後由主持人清除。</p>
       <input id="nick" maxlength="12" placeholder="輸入暱稱（最多 12 字）"><br><br>
       <button class="btnP" id="join" style="width:100%">加入活動</button></div>`;
       const join=()=>{const n=$("#nick").value.trim();if(!n){alert("請先輸入暱稱");return}localStorage.setItem("nick",n);
-        const m=votes[user.uid];V.child(user.uid).set({name:n,side:(m&&m.side)||""}).catch(e=>alert("加入失敗："+e.message));render()};
+        const m=votes[user.uid];V.child(user.uid).set({name:n,side:(m&&m.side)||""}).catch(e=>alert("加入失敗："+e.message+"\n（加入失敗，請向主持人反應。）"));render()};
       $("#join").onclick=join;$("#nick").onkeydown=e=>{if(e.key==="Enter")join()};
       return;
     }
