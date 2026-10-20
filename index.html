@@ -55,10 +55,10 @@ h1{margin:0;font-size:1.3em;color:var(--sage-d)}.mut{color:var(--tx3)}.wrap{max-
 .cell.A .ab{background:var(--mist-d)}.cell.B .ab{background:var(--clay-d)}
 .stg.cur .cell{font-size:1.15em;font-weight:700;border-width:4px}
 .stg.cur .sl{font-size:.95em}
-.iq{background:#fff;border:3px solid var(--sage-d);border-radius:1vw;padding:1vw 1.6vw;margin-top:.8vw}
-.iq .q{font-size:clamp(18px,2.5vw,50px);font-weight:800;color:var(--sage-d);line-height:1.4}
-.iq .r{font-size:clamp(15px,1.8vw,36px);font-weight:600;line-height:1.5;margin-top:.6vw}
-.iq .n{font-size:clamp(15px,1.9vw,38px);font-weight:800;color:var(--clay-d);margin-top:.4vw}
+.iq{background:#fff;border:3px solid var(--sage-d);border-radius:1vw;padding:1.6vw 2vw;margin-top:.8vw}
+.iq .q{font-size:clamp(20px,3.6vw,72px);font-weight:800;color:var(--sage-d);line-height:1.4}
+.iq .r{font-size:clamp(16px,2.5vw,50px);font-weight:600;line-height:1.5;margin-top:.6vw}
+.iq .n{font-size:clamp(16px,2.7vw,54px);font-weight:800;color:var(--clay-d);margin-top:.4vw}
 .lobby{background:#fff;border:3px solid var(--sage-d);border-radius:1vw;padding:1.2vw 1.6vw;margin-top:.8vw}
 .lt{font-size:clamp(18px,2.4vw,48px);font-weight:800;color:var(--sage-d)}
 .lobby .tags span{background:var(--sage-d);color:#fff}
@@ -185,14 +185,14 @@ if(!FIREBASE_CONFIG.apiKey){
       return;
     }
     const me=votes[user.uid], s=st.stage>0?stageObj():null;
-    if(votesLoaded&&!me&&!reg){reg=true;V.child(user.uid).set({name:nick,side:""}).catch(()=>{}).finally(()=>reg=false)} // 主持人清空後自動重新加入
+    if(votesLoaded&&!me&&!reg){reg=true;V.child(user.uid).set({name:nick,side:""}).catch(()=>{}).finally(()=>reg=false)} // 老師清空後自動重新加入
     const panels=()=>{let h="";const n=revealed();for(let i=n-1;i>=0;i--){const x=STAGES[i],cur=i===n-1;h+=`<div class="panel" style="${cur?"":"opacity:.7"}"><b>${x[1]} 第 ${i+1} 階段：${x[0]}</b>${cur?`<p class="mut">${x[2]}</p>`:""}<p style="color:#485870">A：${x[3].join("；")}</p><p style="color:#785040">B：${x[4].join("；")}</p></div>`}return h};
     const btn=(k,label,cls)=>`<button class="pick ${cls} ${me&&me.side===k?"on":""}" ${st.open?"":"disabled"} data-side="${k}">${label}${me&&me.side===k?" ✔ 目前選擇":""}</button>`;
     app.innerHTML=`<div class="wrap"><h1>🏘️ 終極居住命運拉扯戰</h1>
-    <p>${st.final?"最終結果":isIntro()?"初始選擇":s?`第 ${st.stage}/${N} 階段：${s[0]}`:"等待主持人開始…"} ${status()} <span id="cnt" style="font-size:1.6em;font-weight:900"></span></p>
+    <p>${st.final?"最終結果":isIntro()?"初始選擇":s?`第 ${st.stage}/${N} 階段：${s[0]}`:"等待老師開始…"} ${status()} <span id="cnt" style="font-size:1.6em;font-weight:900"></span></p>
     <p class="mut">👤 暱稱：<b>${esc(nick)}</b> <button id="chg" style="padding:2px 10px;font-size:.8em">更改</button></p>
-    ${isLobby()?`<div class="panel">✅ 已加入，請等待主持人開始</div>`:`${isIntro()?`<div class="panel" style="font-size:1.1em"><b>${INTRO_Q}</b></div>`:""}${btn("A",A_NAME,"btnA")}${btn("B",B_NAME,"btnB")}
-    <p>${me&&me.side?`你目前支持 <b>${me.side} 區</b>，${st.open?"可隨時換邊":"投票已鎖定"}`:st.open?"請選擇一個區域":"請等待主持人開始下一階段"}</p>
+    ${isLobby()?`<div class="panel">✅ 已加入，請等待老師開始</div>`:`${isIntro()?`<div class="panel" style="font-size:1.1em"><b>${INTRO_Q}</b></div>`:""}${btn("A",A_NAME,"btnA")}${btn("B",B_NAME,"btnB")}
+    <p>${me&&me.side?`你目前支持 <b>${me.side} 區</b>，${st.open?"可隨時換邊":"投票已鎖定"}`:st.open?"請選擇一個區域":"請等待老師開始下一階段"}</p>
     ${isIntro()?`<div class="panel"><p>${INTRO_RULE}</p><p><b>${INTRO_NOTE}</b></p></div>`:""}`}
     ${panels()}</div>`;
     $("#chg").onclick=()=>{localStorage.removeItem("nick");render()};
@@ -211,7 +211,7 @@ if(!FIREBASE_CONFIG.apiKey){
     const lobby=isLobby(), intro=isIntro(), all=present().map(e=>e[1]);
     const introBlock=`<div class="iq"><div class="q">${INTRO_Q}</div><div class="r">${INTRO_RULE}</div><div class="n">${INTRO_NOTE}</div></div>`;
     app.innerHTML=`<div class="d"><header><h1>🏘️ 終極居住命運拉扯戰${s?`｜第 ${st.stage}/${N} 階段`:intro?"｜初始選擇":""}</h1><div style="display:flex;align-items:center;gap:1.2vw"><div id="qrbox" style="display:${lobby?"block":"none"}"><div id="qr"></div></div><div id="qr2" style="display:${lobby?"none":"block"};background:#fff;padding:3px;border-radius:6px"></div><div class="cnt" id="cnt"></div>${status()}</div></header>
-    ${lobby?`<div class="lobby"><div class="lt">📱 掃描 QR Code 加入，輸入暱稱後等待主持人開始</div><div class="lt" style="margin:.5vw 0">已加入 ${all.length} 人</div><div class="tags">${all.map(v=>`<span>${esc(v.name)}</span>`).join("")}</div></div>`:
+    ${lobby?`<div class="lobby"><div class="lt">📱 掃描 QR Code 加入，輸入暱稱後等待老師開始</div><div class="lt" style="margin:.5vw 0">已加入 ${all.length} 人</div><div class="tags">${all.map(v=>`<span>${esc(v.name)}</span>`).join("")}</div></div>`:
     `${intro?introBlock:""}<div class="vote">${vz("A",A_NAME,c.a,pa,names("A"))}${vz("B",B_NAME,c.b,pb,names("B"))}</div>
     <div class="bar"><div style="width:${pa}%;background:var(--mist-d)">${pa?pa+"%":""}</div><div style="width:${pb}%;background:var(--clay-d)">${pb?pb+"%":""}</div></div>
     ${intro?"":`<div id="conds">${stg()}</div>`}`}</div>`;
